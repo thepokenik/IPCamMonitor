@@ -1,20 +1,12 @@
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import CameraCard from "./Components/CameraCard/CameraCard"
-import Camera from "@/interfaces/Camera"
+import { CameraStatus } from "@/interfaces/Camera"
 import { Plus } from "lucide-react"
+import { useCamera } from "@/contexts/CameraContext"
 
 export default function Home() {
-    const [cameras, setCameras] = useState<Camera[]>([
-        {
-            id: "1",
-            status: "idle",
-            ip: "192.168.1.100",
-            file: null,
-            preview: null,
-        },
-    ])
+    const { cameras, addCamera } = useCamera();
 
     const generateIP = () => {
         const firstOctet = Math.floor(Math.random() * 256)
@@ -24,28 +16,28 @@ export default function Home() {
         return `${firstOctet}.${secondOctet}.${thirdOctet}.${fourthOctet}`
     }
 
-    const addCamera = () => {
-        const newCamera: Camera = {
+    const handleAddCamera = () => {
+        const newCamera = {
             id: Date.now().toString(),
-            status: "idle",
+            status: CameraStatus.Idle,
             ip: generateIP(),
             file: null,
-            preview: null,
-        }
-        setCameras([...cameras, newCamera])
-    }
+            preview: null
+        };
+        addCamera(newCamera);
+    };
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto p-4 overflow-hidden">
             <div className="flex justify-between items-center mb-6">
-                <Button onClick={addCamera} >
+                <Button onClick={handleAddCamera} >
                     <Plus className="w-4 h-4 mr-2" />
                     Add Camera
                 </Button>
             </div>
 
             <ScrollArea className="whitespace-nowrap">
-                <div className="flex gap-4 pb-4 snap-x snap-mandatory scrollbar-hide">
+                <div className="flex w-[700px] gap-4 pb-4">
                     {cameras.map((camera) => (
                         <CameraCard key={camera.id} camera={camera} />
                     ))}
