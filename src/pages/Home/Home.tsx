@@ -45,7 +45,7 @@ export default function Home() {
             </div>
 
             <ScrollArea className="whitespace-nowrap">
-                <div className="flex flex-row-2 w-max space-x-4 py-4">
+                <div className="flex gap-4 pb-4 snap-x snap-mandatory scrollbar-hide">
                     {cameras.map((camera) => (
                         <CameraCard key={camera.id} camera={camera} />
                     ))}
