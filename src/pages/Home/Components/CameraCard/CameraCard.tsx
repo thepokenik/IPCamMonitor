@@ -1,60 +1,28 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { CameraStatus } from "@/interfaces/Camera"
 import { Upload, Play, Square, Trash } from "lucide-react"
-import { useState } from "react"
 
 import { FilePond } from "react-filepond";
 import "filepond/dist/filepond.min.css";
 
 import Camera from "@/interfaces/Camera"
+import { useCamera } from "@/contexts/CameraContext"
 
 interface CameraCardProps {
     camera: Camera
 }
 
 const CameraCard: React.FC<CameraCardProps> = ({ camera }) => {
-    const [cameras, setCameras] = useState<Camera[]>([]);
-
-    const handleFileUpload = (id: string, file: File) => {
-        const preview = URL.createObjectURL(file)
-        setCameras(
-            cameras.map((camera) =>
-                camera.id === id
-                    ? {
-                        ...camera,
-                        file,
-                        preview,
-                        status: "idle",
-                    }
-                    : camera,
-            ),
-        )
-    }
-
-    const toggleStream = (id: string) => {
-        setCameras(
-            cameras.map((camera) =>
-                camera.id === id
-                    ? {
-                        ...camera,
-                        status: camera.status === "idle" ? "streaming" : "idle",
-                    }
-                    : camera,
-            ),
-        )
-    }
-
-    const removeCamera = (id: string) => {
-        setCameras(cameras.filter((camera) => camera.id !== id))
-    }
+    const { removeCamera, updateCamera } = useCamera();
 
     return (
-        <Card key={camera.id} className="overflow-hidden flex-none w-[calc(40%-8px)] snap-start">
+        <Card key={camera.id} className="flex-none w-[calc(70%-8px)] ">
             <CardHeader className="space-y-1">
                 <div className="flex items-center justify-between">
                     <CardTitle className="text-xl">Camera {camera.id}</CardTitle>
-                    <Badge variant={camera.status === "streaming" ? "default" : "secondary"} className="capitalize">
+                    <Badge variant={camera.status === CameraStatus.Streaming ? "default" : "secondary"} className="capitalize">
                         {camera.status}
                     </Badge>
                 </div>
@@ -87,7 +55,7 @@ const CameraCard: React.FC<CameraCardProps> = ({ camera }) => {
                             input.onchange = (e) => {
                                 const file = (e.target as HTMLInputElement).files?.[0]
                                 if (file) {
-                                    handleFileUpload(camera.id, file)
+                                    updateCamera(camera.id, { file: file })
                                 }
                             }
                             input.click()
@@ -99,7 +67,7 @@ const CameraCard: React.FC<CameraCardProps> = ({ camera }) => {
                     <Button
                         variant="default"
                         disabled={!camera.file}
-                        onClick={() => toggleStream(camera.id)}
+                        onClick={() => updateCamera(camera.id, { status: camera.status === CameraStatus.Streaming ? CameraStatus.Idle : CameraStatus.Streaming })}
                     >
                         {camera.status === "streaming" ? (
                             <Square />
