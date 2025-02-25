@@ -50,7 +50,7 @@ const CameraCard: React.FC<CameraCardProps> = ({ camera }) => {
     }
 
     return (
-        <Card key={camera.id} className="overflow-hidden">
+        <Card key={camera.id} className="overflow-hidden flex-none w-[calc(40%-8px)] snap-start">
             <CardHeader className="space-y-1">
                 <div className="flex items-center justify-between">
                     <CardTitle className="text-xl">Camera {camera.id}</CardTitle>
