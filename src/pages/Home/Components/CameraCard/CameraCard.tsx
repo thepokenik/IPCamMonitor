@@ -1,14 +1,26 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { CameraStatus } from "@/interfaces/Camera"
-import { Upload, Play, Square, Trash } from "lucide-react"
+// Tauri Imports
+import { open } from '@tauri-apps/plugin-dialog';
 
-import { FilePond } from "react-filepond";
-import "filepond/dist/filepond.min.css";
-
+// Cameras Context
 import Camera from "@/interfaces/Camera"
 import { useCamera } from "@/contexts/CameraContext"
+import { addCameraApi } from "@/services/camera"
+import { CameraStatus } from "@/interfaces/Camera"
+
+// UI Components
+import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+    CardTitle
+} from "@/components/ui/card"
+
+// Icons
+import { Upload, Play, Square, Trash } from "lucide-react"
 
 interface CameraCardProps {
     camera: Camera
@@ -16,6 +28,46 @@ interface CameraCardProps {
 
 const CameraCard: React.FC<CameraCardProps> = ({ camera }) => {
     const { removeCamera, updateCamera } = useCamera();
+
+    const handleSelectFile = async () => {
+        try {
+            const selected = await open({
+                multiple: false,
+            });
+
+            if (selected) {
+                updateCamera(camera.id, { preview: selected });
+            }
+        } catch (error) {
+            console.error("Error selecting file:", error);
+        }
+    };
+
+    const handleAddCamera = async () => {
+        try {
+            if (!camera.preview || !camera.port) {
+                throw new Error("Both video preview and port are required");
+            }
+
+            const response = await addCameraApi(camera);
+
+            const data = await response.json();
+            updateCamera(camera.id, { status: CameraStatus.Streaming });
+            console.log(data);
+        } catch (err) {
+            console.error("Error starting camera:", err);
+            updateCamera(camera.id, { status: CameraStatus.Error });
+        }
+    };
+
+    const handleRemoveCamera = () => {
+        try {
+            removeCamera(camera);
+            console.log("Camera removed successfully.");
+        } catch (err) {
+            console.error("Error stopping camera:", err);
+        }
+    };
 
     return (
         <Card key={camera.id} className="flex-none w-[calc(70%-8px)] ">
@@ -38,36 +90,29 @@ const CameraCard: React.FC<CameraCardProps> = ({ camera }) => {
                         />
                     ) : (
                         <div>
-                            <FilePond allowMultiple={true} credits={false} />
+
+                            <Button
+                                variant="default"
+                                className="absolute inset-0 w-full h-full"
+                                onClick={handleSelectFile}
+                            >
+                                <Upload className="w-8 h-8" />
+                            </Button>
                         </div>
                     )}
                 </div>
             </CardContent>
             <CardFooter className="grid gap-2 p-4">
                 <div className="flex gap-2">
+                    <Input
+                        placeholder="Enter the Port Number"
+                        value={camera.port || ""}
+                        onChange={(e) => updateCamera(camera.id, { port: parseInt(e.target.value) })}
+                    />
                     <Button
-                        variant="outline"
-                        className="w-full"
-                        onClick={() => {
-                            const input = document.createElement("input")
-                            input.type = "file"
-                            input.accept = "image/*,video/*"
-                            input.onchange = (e) => {
-                                const file = (e.target as HTMLInputElement).files?.[0]
-                                if (file) {
-                                    updateCamera(camera.id, { file: file })
-                                }
-                            }
-                            input.click()
-                        }}
-                    >
-                        <Upload className="w-4 h-4 mr-2" />
-                        Upload Media
-                    </Button>
-                    <Button
-                        variant="default"
-                        disabled={!camera.file}
-                        onClick={() => updateCamera(camera.id, { status: camera.status === CameraStatus.Streaming ? CameraStatus.Idle : CameraStatus.Streaming })}
+                        variant={camera.status === CameraStatus.Idle ? "default" : "secondary"}
+                        disabled={!camera.port || !camera.preview}
+                        onClick={handleAddCamera}
                     >
                         {camera.status === "streaming" ? (
                             <Square />
@@ -77,7 +122,7 @@ const CameraCard: React.FC<CameraCardProps> = ({ camera }) => {
                     </Button>
                     <Button
                         variant="destructive"
-                        onClick={() => removeCamera(camera.id)}
+                        onClick={handleRemoveCamera}
                     >
                         <Trash />
                     </Button>
