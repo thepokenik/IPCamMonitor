@@ -1,4 +1,5 @@
 import Camera from '@/interfaces/Camera';
+import { removeCameraApi } from '@/services/camera';
 import { createContext, useReducer, useContext, ReactNode } from 'react';
 
 type Action =
@@ -34,7 +35,7 @@ const initialState: CameraState = {
 const CameraContext = createContext<{
     cameras: Camera[];
     addCamera: (camera: Camera) => void;
-    removeCamera: (id: string) => void;
+    removeCamera: (camera: Camera) => void;
     updateCamera: (id: string, data: Partial<Camera>) => void;
 } | undefined>(undefined);
 
@@ -45,8 +46,9 @@ export const CameraProvider = ({ children }: { children: ReactNode }) => {
         dispatch({ type: 'ADD_CAMERA', payload: camera });
     };
 
-    const removeCamera = (id: string) => {
-        dispatch({ type: 'REMOVE_CAMERA', payload: id });
+    const removeCamera = async (camera: Camera) => {
+        await removeCameraApi(camera);
+        dispatch({ type: 'REMOVE_CAMERA', payload: camera.id });
     };
 
     const updateCamera = (id: string, data: Partial<Camera>) => {
