@@ -8,19 +8,12 @@ import { useCamera } from "@/contexts/CameraContext"
 export default function Home() {
     const { cameras, addCamera } = useCamera();
 
-    const generateIP = () => {
-        const firstOctet = Math.floor(Math.random() * 256)
-        const secondOctet = Math.floor(Math.random() * 256)
-        const thirdOctet = Math.floor(Math.random() * 256)
-        const fourthOctet = Math.floor(Math.random() * 256)
-        return `${firstOctet}.${secondOctet}.${thirdOctet}.${fourthOctet}`
-    }
-
     const handleAddCamera = () => {
         const newCamera = {
             id: Date.now().toString(),
             status: CameraStatus.Idle,
-            ip: generateIP(),
+            ip: '',
+            port: null,
             file: null,
             preview: null
         };
