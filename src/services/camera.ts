@@ -12,6 +12,7 @@ export const addCameraApi = async (camera: Camera): Promise<any> => {
     const params = {
         video: camera?.preview || '',
         port: (camera?.port ?? '').toString(),
+        fps: (camera?.fps ?? 15),
     };
 
     try {

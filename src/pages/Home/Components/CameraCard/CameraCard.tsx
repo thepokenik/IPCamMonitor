@@ -108,6 +108,11 @@ const CameraCard: React.FC<CameraCardProps> = ({ camera }) => {
                         value={camera.port || ""}
                         onChange={(e) => updateCamera(camera.id, { port: parseInt(e.target.value) })}
                     />
+                    <Input
+                        placeholder="Enter the FPS"
+                        value={camera.fps || ""}
+                        onChange={(e) => updateCamera(camera.id, { fps: parseInt(e.target.value) })}
+                    />
                     <Button
                         variant={camera.status === CameraStatus.Idle ? "default" : "secondary"}
                         disabled={!camera.port || !camera.preview}

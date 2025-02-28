@@ -3,6 +3,7 @@ export default interface Camera {
     status: CameraStatus
     ip: string | null
     port: number | null
+    fps: number | null
     file: File | Blob | null
     preview: string | null
 }

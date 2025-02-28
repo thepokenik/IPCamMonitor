@@ -14,6 +14,7 @@ export default function Home() {
             status: CameraStatus.Idle,
             ip: '',
             port: null,
+            fps: null,
             file: null,
             preview: null
         };
