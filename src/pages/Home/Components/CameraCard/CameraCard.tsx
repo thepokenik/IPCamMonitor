@@ -49,9 +49,8 @@ const CameraCard: React.FC<CameraCardProps> = ({ camera }) => {
                 throw new Error("Both video preview and port are required");
             }
 
-            const response = await addCameraApi(camera);
+            const data = await addCameraApi(camera);
 
-            const data = await response.json();
             updateCamera(camera.id, { status: CameraStatus.Streaming });
             console.log(data);
         } catch (err) {
