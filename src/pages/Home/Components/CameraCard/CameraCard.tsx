@@ -77,10 +77,9 @@ const CameraCard: React.FC<CameraCardProps> = ({ camera }) => {
                         {camera.status}
                     </Badge>
                 </div>
-                <div className="text-sm text-muted-foreground">IP: {camera.ip}</div>
             </CardHeader>
-            <CardContent className="p-0">
-                <div className="relative aspect-video bg-muted">
+            <CardContent>
+                <div className="relative aspect-video">
                     {camera.preview ? (
                         <img
                             src={camera.preview || "/placeholder.svg"}
@@ -91,10 +90,11 @@ const CameraCard: React.FC<CameraCardProps> = ({ camera }) => {
                         <div>
 
                             <Button
-                                variant="default"
-                                className="absolute inset-0 w-full h-full"
+                                variant="outline"
+                                className="absolute w-full h-full"
                                 onClick={handleSelectFile}
                             >
+                                Select your files
                                 <Upload className="w-8 h-8" />
                             </Button>
                         </div>
