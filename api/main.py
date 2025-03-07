@@ -3,6 +3,15 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+import sys
+import os
+
+if getattr(sys, 'frozen', False):
+    script_dir = sys._MEIPASS  
+else:
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+sys.path.append(os.path.join(script_dir, "modules"))
 
 app = FastAPI()
 app.add_middleware(
@@ -24,11 +33,11 @@ async def start_camera(video: str = Query(...), port: str = Query(...), fps: int
             port (str): Port to run the camera server on.
             fps (int): Frames per second to stream the video at.
     """
-
     if (video, port) in processes:
         raise HTTPException(status_code=409, detail="Camera server already running")
 
-    process = subprocess.Popen(["python", "./api/modules/camera_server.py", video, str(port), fps])
+    camera_server_path = os.path.join(script_dir, "modules", "camera_server.py")
+    process = subprocess.Popen(["python", camera_server_path, video, str(port), str(fps)])
     processes[(video, port)] = process
 
     return JSONResponse({
