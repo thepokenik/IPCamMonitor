@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/card"
 
 // Icons
-import { Upload, Play, Square, Trash } from "lucide-react"
+import { Upload, Play, Square, Trash, Focus } from "lucide-react"
 
 interface CameraCardProps {
     camera: Camera
@@ -59,6 +59,14 @@ const CameraCard: React.FC<CameraCardProps> = ({ camera }) => {
         }
     };
 
+    const handleOpenCamera = () => {
+        try {
+            window.open(`http://localhost:${camera.port}`, "_blank");
+        } catch (err) {
+            console.error("Error opening camera:", err);
+        }
+    }
+
     const handleRemoveCamera = () => {
         try {
             removeCamera(camera);
@@ -82,9 +90,9 @@ const CameraCard: React.FC<CameraCardProps> = ({ camera }) => {
                 <div className="relative aspect-video">
                     {camera.preview ? (
                         <img
-                            src={camera.preview || "/placeholder.svg"}
+                            src={"https://placehold.co/600x400"}
                             alt={`Camera ${camera.id} preview`}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover rounded"
                         />
                     ) : (
                         <div>
@@ -114,7 +122,6 @@ const CameraCard: React.FC<CameraCardProps> = ({ camera }) => {
                         onChange={(e) => updateCamera(camera.id, { fps: parseInt(e.target.value) })}
                     />
                     <Button
-                        variant={camera.status === CameraStatus.Idle ? "default" : "secondary"}
                         disabled={!camera.port || !camera.preview}
                         onClick={handleAddCamera}
                     >
@@ -123,6 +130,13 @@ const CameraCard: React.FC<CameraCardProps> = ({ camera }) => {
                         ) : (
                             <Play />
                         )}
+                    </Button>
+                    <Button
+                        disabled={camera.status !== CameraStatus.Streaming}
+                        variant="secondary"
+                        onClick={handleOpenCamera}
+                    >
+                        <Focus />
                     </Button>
                     <Button
                         variant="destructive"
