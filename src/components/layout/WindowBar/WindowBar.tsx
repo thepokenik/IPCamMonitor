@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getCurrentWindow } from '@tauri-apps/api/window';
-import { X, Cctv } from 'lucide-react';
+import { X, View } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 import SettingsModal from './Components/Settings/Settings';
@@ -24,8 +24,8 @@ const WindowBar = () => {
     return (
         <div data-tauri-drag-region className="flex w-full" style={{ WebkitAppRegion: 'drag' } as React.CSSProperties}>
             <div className="flex gap-2 items-center w-full">
-                <Cctv className="text-primary" />
-                <div className="text-lg font-semibold">Camera Dashboard</div>
+                <View className="text-primary" />
+                <div className="text-lg font-semibold">Visage</div>
             </div>
             <div className="flex justify-end w-full">
                 <SettingsModal />
