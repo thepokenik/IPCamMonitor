@@ -1,6 +1,6 @@
-# IPCamMonitor
+# Visage
 
-**IPCamMonitor** is a desktop application developed with Tauri, TypeScript, and Tailwind CSS, designed to simulate IP camera connections. This tool allows developers to test and interact with IP video streams in a controlled environment.
+**Visage** is a desktop application developed with Tauri, TypeScript, and Tailwind CSS, designed to simulate IP camera connections. This tool allows developers to test and interact with IP video streams in a controlled environment.
 
 ## Features
 

@@ -1,8 +1,8 @@
 {
     "$schema": "https://schema.tauri.app/config/2",
-    "productName": "wisp",
+    "productName": "visage",
     "version": "0.1.0",
-    "identifier": "com.wisp.app",
+    "identifier": "com.visage.app",
     "build": {
         "beforeDevCommand": "npm run dev",
         "devUrl": "http://localhost:1420",
@@ -12,7 +12,7 @@
     "app": {
         "windows": [
             {
-                "title": "Wisp",
+                "title": "Visage",
                 "decorations": false,
                 "resizable": false,
                 "width": 1080,
