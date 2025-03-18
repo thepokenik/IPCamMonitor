@@ -1,70 +1,76 @@
 # IPCamMonitor
 
-**IPCamMonitor** é uma aplicação desktop desenvolvida com Tauri, TypeScript e Tailwind CSS, projetada para simular conexões de câmeras IP. Esta ferramenta permite que desenvolvedores testem e interajam com fluxos de vídeo IP em um ambiente controlado.
+**IPCamMonitor** is a desktop application developed with Tauri, TypeScript, and Tailwind CSS, designed to simulate IP camera connections. This tool allows developers to test and interact with IP video streams in a controlled environment.
 
-## Funcionalidades
+## Features
 
-- **Simulação de Câmeras IP**: Crie e gerencie instâncias virtuais de câmeras IP utilizando de fotos, videos, ou até mesmo outros tipos de câmera, para testes e desenvolvimento.
-- **Interface Intuitiva**: Utilize uma interface moderna e responsiva construída com Tailwind CSS.
-- **Desempenho Otimizado**: Aproveite a eficiência do Tauri para aplicações desktop leves e rápidas.
+- **IP Camera Simulation**: Create and manage virtual instances of IP cameras using photos, videos, or even other types of cameras for testing and development.
+- **Intuitive Interface**: Use a modern and responsive interface built with Tailwind CSS.
+- **Optimized Performance**: Leverage Tauri's efficiency for lightweight and fast desktop applications.
 
-## Pré-requisitos
+## Prerequisites
 
-Antes de iniciar, certifique-se de ter as seguintes ferramentas instaladas em seu sistema:
+Before starting, make sure you have the following tools installed on your system:
 
-- **Node.js**: Ambiente de execução JavaScript. [Instalar Node.js](https://nodejs.org/)
-- **Rust**: Necessário para compilar o backend do Tauri. [Instalar Rust](https://www.rust-lang.org/pt-BR/tools/install)
-- **Tauri CLI**: Interface de linha de comando do Tauri. Instale globalmente com:
+- **Node.js**: JavaScript runtime environment. [Install Node.js](https://nodejs.org/)
+- **Rust**: Required to compile Tauri's backend. [Install Rust](https://www.rust-lang.org/tools/install)
+- **Python**: Required to build run backend API. [Install Python](https://www.python.org/downloads/)
+- **Tauri CLI**: Tauri's command-line interface. Install globally with:
 
-  ```bash
-  cargo install tauri-cli
-  ```
+    ```bash
+    cargo install tauri-cli
+    ```
 
+## Installation
 
-## Instalação
+Follow the steps below to set up the project on your local machine:
 
-Siga os passos abaixo para configurar o projeto em sua máquina local:
+1. **Clone the repository**:
 
-1. **Clone o repositório**:
+     ```bash
+     git clone https://github.com/thepokenik/IPCamMonitor.git
+     ```
 
-   ```bash
-   git clone https://github.com/thepokenik/IPCamMonitor.git
-   ```
+2. **Navigate to the project directory**:
 
+     ```bash
+     cd IPCamMonitor
+     ```
 
-2. **Navegue até o diretório do projeto**:
+3. **Install Client dependencies**:
 
-   ```bash
-   cd IPCamMonitor
-   ```
+     ```bash
+     npm install
+     ```
 
+     *Note*: You can choose to use `yarn` or `pnpm` as per your preference.
 
-3. **Instale as dependências**:
+4. **Install Server dependencies**:
 
-   ```bash
-   npm install
-   ```
+    ```bash
+     pip install -r api/requirements.txt
+     ```
 
+## Development
 
-   *Nota*: Você pode optar por usar `yarn` ou `pnpm` conforme sua preferência.
-
-## Desenvolvimento
-
-Para iniciar o ambiente de desenvolvimento com recarregamento automático:
+To start the development environment with live reloading:
 
 ```bash
 npm run tauri dev
 ```
 
+```bash
+python api/main.py
+```
 
-Isso iniciará a aplicação em modo de desenvolvimento, permitindo que você veja as alterações em tempo real.
+This will launch the application in development mode, allowing you to see changes in real-time.
 
-## Construção
+## Build
 
-Para gerar os executáveis de produção:
+To generate production executables:
 
 ```bash
 npm run tauri build
 ```
 
-Os arquivos gerados estarão disponíveis no diretório `src-tauri/target/release/bundle`. Para mais detalhes sobre a distribuição em diferentes plataformas, consulte a [documentação oficial do Tauri](https://tauri.app/v1/guides/building/).
+The generated files will be available in the `src-tauri/target/release/bundle` directory. For more details on distribution across different platforms, refer to the [official Tauri documentation](https://tauri.app/v1/guides/building/).
