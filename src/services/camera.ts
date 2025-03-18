@@ -1,4 +1,4 @@
-import Camera from '@/interfaces/Camera';
+import Camera, { CameraStatus } from '@/interfaces/Camera';
 import axios from 'axios';
 
 const api = axios.create({
@@ -29,6 +29,10 @@ export const removeCameraApi = async (camera: Camera): Promise<any> => {
         video: camera?.preview || '',
         port: (camera?.port ?? '').toString(),
     };
+
+    if (camera.status !== CameraStatus.Streaming) {
+        return;
+    }
 
     try {
         const response = await api.get('/stop_camera', { params });
