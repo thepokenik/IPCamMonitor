@@ -1,0 +1,23 @@
+# Web-related libraries
+fastapi==0.115.11
+starlette==0.46.1
+uvicorn==0.34.0
+anyio==4.9.0
+h11==0.14.0
+sniffio==1.3.1
+idna==3.10
+
+# Scripting and utility libraries
+click==8.1.8
+colorama==0.4.6
+exceptiongroup==1.2.2
+typing-extensions==4.12.2
+annotated-types==0.7.0
+
+# Image processing and numerical computation
+opencv-python==4.11.0.86
+numpy==2.0.2
+
+# Data validation and modeling
+pydantic==2.10.6
+pydantic-core==2.27.2
